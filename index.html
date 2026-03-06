@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Climora</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- LEFT NAV LINKS -->
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" href="#" onclick="resetHome()">Home</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="toggleAbout()">
+                ℹ About & Guide
+              </a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Quick Cities 🌍
+              </a>
+
+              <ul class="dropdown-menu">
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="searchByCity('Delhi')"
+                  >
+                    Delhi
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="searchByCity('Berlin')"
+                  >
+                    Berlin
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="searchByCity('Pune')"
+                  >
+                    Pune
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <!-- RIGHT SEARCH FORM -->
+          <form class="d-flex" role="search" onsubmit="searchWeather(event)">
+            <input
+              class="form-control me-2"
+              type="search"
+              id="cityInput"
+              placeholder="Search any city in the world"
+              aria-label="Search"
+            />
+            <button class="btn btn-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="text-center mb-4">
+      <h3 id="weather-title">Weather of All Cities</h3>
+      <div id="weather-icon" style="font-size: 70px">🌤</div>
+    </div>
+
+    <div class="container mt-3">
+      <div id="aboutContent" class="about-card">
+        <h4>🌤 About Climora</h4>
+        <p>
+          Climora is a real-time weather dashboard that provides accurate
+          temperature, humidity, and wind speed data for cities worldwide. It
+          uses live weather APIs to ensure up-to-date results.
+        </p>
+
+        <hr />
+
+        <h5>📖 How to Use Climora</h5>
+        <ul>
+          <li>🔍 Enter any city name in the search bar and click Search.</li>
+          <li>🌡 View real-time temperature, humidity, and wind speed.</li>
+          <li>📊 Check common cities in the weather table below.</li>
+          <li>📍 Use the Quick Cities dropdown for instant results.</li>
+          <li>🏠 Click Home to reset the dashboard.</li>
+        </ul>
+
+        <hr />
+
+        <h5>🚀 Features</h5>
+        <ul>
+          <li>✔ Real-time weather data</li>
+          <li>✔ Global city search</li>
+          <li>✔ Responsive mobile design</li>
+          <li>✔ Clean and modern UI</li>
+        </ul>
+      </div>
+
+      <div class="row text-center mb-4">
+        <div class="col-md-2">
+          <div class="card shadow">
+            <div class="card-body">
+              <h5 class="card-title">Temperature 🌡</h5>
+              <p class="card-text fs-4" id="search-temp">--</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="card shadow">
+            <div class="card-body">
+              <h5 class="card-title">Max Temp 🔺</h5>
+              <p class="card-text fs-4" id="search-max">--</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="card shadow">
+            <div class="card-body">
+              <h5 class="card-title">Min Temp 🔻</h5>
+              <p class="card-text fs-4" id="search-min">--</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card shadow">
+            <div class="card-body">
+              <h5 class="card-title">Humidity 💧</h5>
+              <p class="card-text fs-4" id="search-humidity">--</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card shadow">
+            <div class="card-body">
+              <h5 class="card-title">Wind Speed 💨</h5>
+              <p class="card-text fs-4" id="search-wind">--</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="text-center mb-3">🌍 Weather of Some Common Cities</h3>
+
+      <!-- Table -->
+      <div class="table-responsive">
+        <table class="table text-center">
+          <thead class="table-dark">
+            <tr>
+              <th style="width: 20%">City</th>
+              <th>🌡 Temperature</th>
+              <th>💧 Humidity</th>
+              <th>🔺 Max Temp</th>
+              <th>🔻 Min Temp</th>
+              <th>💨 Wind</th>
+            </tr>
+          </thead>
+          <tbody id="weatherTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <h2>🌍 Climora</h2>
+          <p>Real-time weather updates for cities around the world.</p>
+        </div>
+
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Common Cities</a></li>
+            <li><a href="#">Search Weather</a></li>
+            <li><a href="#">About</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact">
+          <h4>Developer</h4>
+          <p>Made with ❤️ by Vineet</p>
+          <p>AI/ML Developer | Web Enthusiast</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Climora. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
